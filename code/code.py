@@ -73,3 +73,21 @@ for col in df.select_dtypes(include='number').columns:
 print("\nVariables categóricas:")
 vacios(df)
 
+#Deteccion de outliers
+print("\nDetección de outliers:")
+def detectar_outliers_iqr(df, col):
+    Q1 = df[col].quantile(0.25)
+    Q3 = df[col].quantile(0.75)
+    IQR = Q3 - Q1
+
+    lower = Q1 - 1.5 * IQR
+    upper = Q3 + 1.5 * IQR
+
+    outliers = df[(df[col] < lower) | (df[col] > upper)]
+
+    return outliers
+
+numerisc = ['views', 'likes', 'dislikes', 'comment_count']
+for col in numerisc:
+    outliers = detectar_outliers_iqr(df, col)
+    print(f"{col}: {outliers.shape[0]} outliers detectados")
