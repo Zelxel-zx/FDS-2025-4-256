@@ -73,21 +73,45 @@ for col in df.select_dtypes(include='number').columns:
 print("\nVariables categóricas:")
 vacios(df)
 
-#Deteccion de outliers
+#Deteccion de outliers y tratamiento
 print("\nDetección de outliers:")
-def detectar_outliers_iqr(df, col):
+numerics = ['views', 'likes', 'dislikes', 'comment_count']
+for col in numerics:
+    plt.figure(figsize=(6, 2))
+    sns.boxplot(x=np.log10(df[col] + 1))
+    plt.title(f'Boxplot {col} (antes)')
+    plt.xlabel(col)
+    plt.tight_layout()
+    plt.show()
+    
+def reemplazar_outliers_por_mediana(df, col):
     Q1 = df[col].quantile(0.25)
     Q3 = df[col].quantile(0.75)
     IQR = Q3 - Q1
-
     lower = Q1 - 1.5 * IQR
     upper = Q3 + 1.5 * IQR
+    mediana = df[col].median()
+    outliers_mask = (df[col] < lower) | (df[col] > upper)
+    outliers_count = outliers_mask.sum()
+    print(f"{col}: {outliers_count} valores atípicos detectados")
+    # Contar
+    inferiores = (df[col] < lower).sum()
+    superiores = (df[col] > upper).sum()
+    print(f"{col}: outliers inferiores detectados: {inferiores}")
+    print(f"{col}: outliers superiores detectados: {superiores}")
+    df[col] = df[col].apply(lambda x: mediana if x < lower or x > upper else x)
+    
+for col in numerics:
+    reemplazar_outliers_por_mediana(df, col)
+    plt.figure(figsize=(6, 2))
+    sns.boxplot(x=np.log10(df[col] + 1))
+    plt.title(f'Boxplot {col} (después)')
+    plt.xlabel(col)
+    plt.tight_layout()
+    plt.show()
 
-    outliers = df[(df[col] < lower) | (df[col] > upper)]
+#Tratamiento de valores nulos y '[none]'
+df['tags'] = df['tags'].replace('[none]', 'sin tags')
+df['category_id'] = df['category_id'].fillna('sin categoria')
 
-    return outliers
 
-numerisc = ['views', 'likes', 'dislikes', 'comment_count']
-for col in numerisc:
-    outliers = detectar_outliers_iqr(df, col)
-    print(f"{col}: {outliers.shape[0]} outliers detectados")
