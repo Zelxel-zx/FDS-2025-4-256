@@ -169,7 +169,7 @@ tend_tiempo = analisis_temporal(df)
 plt.figure(figsize=(12, 6))
 tend_tiempo.plot()
 plt.title('Volumen de videos en tendencia a lo largo del tiempo')
-plt.show()
+plt.savefig('analisis_temporal_2.png')
 
 print("\nCanales más frecuentes en tendencias:")
 canales = analisis_canales(df)
