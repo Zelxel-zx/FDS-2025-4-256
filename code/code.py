@@ -5,6 +5,11 @@ import matplotlib.pyplot as plt
 import json
 from geopandas import gpd
 from shapely.wkt import loads
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.tree import DecisionTreeRegressor, plot_tree, export_text
 
 
 def cantidad(df, max_categorias=5):
@@ -40,14 +45,23 @@ df = pd.read_csv("data/GBvideos_cc50_202101.csv")
 with open("data/GB_category_id.json", "r", encoding="utf-8") as f:
     categories = json.load(f)
 cat_map = {int(item['id']): item['snippet']['title'] for item in categories['items']}
-df['category_id'] = df['category_id'].map(cat_map)
+# Convertir category_id a int antes de mapear
+df['category_id'] = pd.to_numeric(df['category_id'], errors='coerce')
+df['category_id'] = df['category_id'].map(lambda x: cat_map.get(x, 'sin categoria'))
 
 print("Columnas:", df.columns)
 df.info()
 
 #Convertir variables
-df['trending_date'] = pd.to_datetime(df['trending_date'], format='%y.%d.%m', errors='coerce')
-df['publish_time'] = pd.to_datetime(df['publish_time'], utc=True, errors='coerce')
+df['trending_date'] = pd.to_datetime(df['trending_date'], format='%y.%d.%m')
+df['publish_time'] = pd.to_datetime(df['publish_time'])
+# Asegurar que trending_date esté en UTC
+df['trending_date'] = df['trending_date'].dt.tz_localize('UTC')
+# Convertir publish_time a UTC si ya tiene zona horaria, o localizarlo si no la tiene
+if df['publish_time'].dt.tz is None:
+    df['publish_time'] = df['publish_time'].dt.tz_localize('UTC', ambiguous='NaT')
+else:
+    df['publish_time'] = df['publish_time'].dt.tz_convert('UTC')
 df['geometry'] = df['geometry'].apply(loads)
 gdf = gpd.GeoDataFrame(df, geometry='geometry', crs='EPSG:4326')
 
@@ -113,5 +127,3 @@ for col in numerics:
 #Tratamiento de valores nulos y '[none]'
 df['tags'] = df['tags'].replace('[none]', 'sin tags')
 df['category_id'] = df['category_id'].fillna('sin categoria')
-
-
