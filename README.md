@@ -4,12 +4,14 @@
 
 El objetivo del análisis es identificar y describir los factores que contribuyen al éxito de los videos en tendencia en YouTube Gran Bretaña. Se busca responder preguntas como:
 
-- ¿Qué categorías de videos son las más frecuentes en las tendencias?
-- ¿Qué canales aparecen con mayor recurrencia?
-- ¿Qué regiones acumulan mayor número de vistas, likes y dislikes?
-- ¿Cómo varía el volumen de videos en tendencia a lo largo del tiempo?
-- ¿Qué proporciones entre likes/dislikes y vistas/comentarios indican mejor recepción del público?
-- ¿Es factible predecir métricas clave como vistas, likes o dislikes?
+- ¿Qué categorías de videos son las de mayor tendencia?
+- ¿Qué categorías de videos son los que más gustan? ¿Y las que menos gustan?
+- ¿Qué categorías de videos tienen la mejor proporción (ratio) de “Me gusta” / “No me gusta”?
+- ¿Qué categorías de videos tienen la mejor proporción (ratio) de “Vistas” / “Comentarios”?
+- ¿Qué Canales de YouTube son tendencia más frecuentemente? ¿Y cuáles con menos frecuencia?
+- ¿En qué Estados se presenta el mayor número de “Vistas”, “Me gusta” y “No me gusta”? 
+- ¿Los videos en tendencia son los que mayor cantidad de comentarios positivos reciben?
+- ¿Es factible predecir el número de “Vistas” o “Me gusta” o “No me gusta”?
 
 ## Autores
 
@@ -63,14 +65,21 @@ El dataset incluye un archivo `data/GB_category_id.json` que mapea los IDs numé
 
 ## Conclusiones
 
-### Hallazgos Principales
+### Categorías de videos son las de mayor tendencia
 
-### Capacidad Predictiva
+### Categorías de videos son los que más gustan y las que menos gustan
 
+### Categorías de videos tienen la mejor proporción (ratio) de “Me gusta” / “No me gusta”
 
-### Recomendaciones
+### Categorías de videos tienen la mejor proporción (ratio) de “Vistas” / “Comentarios”
 
+### Canales de YouTube son tendencia más frecuentemente y cuáles con menos frecuencia
 
+### Estados que presentan el mayor número de “Vistas”, “Me gusta” y “No me gusta”
+
+### Videos en tendencia que reciben mayor cantidad de comentarios positivos 
+
+### ¿Sera factible predecir el número de “Vistas” o “Me gusta” o “No me gusta”??
 
 
 ## Licencia
