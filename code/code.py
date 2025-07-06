@@ -132,4 +132,7 @@ for col in numerics:
 
 #Tratamiento de valores nulos y '[none]'
 df['tags'] = df['tags'].replace('[none]', 'sin tags')
-df['category_id'] = df['category_id'].fillna('sin categoria')
+df['trending_date'] = pd.to_datetime(df['trending_date']).dt.strftime('%Y-%m-%d')
+df_save = df.copy()
+archivo_limpio = "data/GBvideos_cc50_202101_limpio.csv"
+df_save.to_csv(archivo_limpio, index=False, encoding='utf-8')
