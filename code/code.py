@@ -49,8 +49,14 @@ cat_map = {int(item['id']): item['snippet']['title'] for item in categories['ite
 df['category_id'] = pd.to_numeric(df['category_id'], errors='coerce')
 df['category_id'] = df['category_id'].map(lambda x: cat_map.get(x, 'sin categoria'))
 
+print(f"Dimensiones del dataset: {df.shape}")
+print(f"Filas: {df.shape[0]:,}")
+print(f"Columnas: {df.shape[1]}")
+
 print("Columnas:", df.columns)
 df.info()
+
+
 
 #Convertir variables
 df['trending_date'] = pd.to_datetime(df['trending_date'], format='%y.%d.%m')
